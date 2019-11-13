@@ -1,10 +1,11 @@
-import PokemonService from "@/services/PokemonService";
+import PokemonService from '@/services/PokemonService';
 
 export const namespaced = true;
 
 export const state = {
   pokemon: [],
-  selectedPokemon: {}
+  selectedPokemon: {},
+  totalPokemon: 0
 };
 
 export const mutations = {
@@ -13,24 +14,32 @@ export const mutations = {
   },
   SET_SELECTED_POKEMON(state, pokemon) {
     state.selectedPokemon = pokemon;
+  },
+  SET_TOTAL_POKEMON(state, total) {
+    state.totalPokemon = total;
   }
 };
 
 export const actions = {
-  fetchAllPokemon({ commit }, { page, perPage }) {
-    //console.log(page, perPage);
+  fetchAllPokemon({ commit, dispatch }, { page, perPage }) {
+    dispatch('loading/startLoadingList', {}, { root: true });
     return PokemonService.getAllPokemon(page, perPage)
-      .then(pokemon => {
-        console.log(pokemon);
-        commit("SET_POKEMON", pokemon);
+      .then(response => {
+        commit('SET_POKEMON', response.results);
+        commit('SET_TOTAL_POKEMON', response.count);
       })
-      .catch(err => console.log(`Error fetching all pokemon: ${err}`));
+      .catch(err => console.log(`Error fetching all pokemon: ${err}`))
+      .finally(() => dispatch('loading/stopLoadingList', {}, { root: true }));
   },
-  fetchPokemon({ commit }, name) {
+  fetchPokemon({ commit, dispatch }, name) {
+    dispatch('loading/startLoadingPokemon', {}, { root: true });
     return PokemonService.getPokemon(name)
       .then(pokemon => {
-        commit("SET_SELECTED_POKEMON", pokemon);
+        commit('SET_SELECTED_POKEMON', pokemon);
       })
-      .catch(err => console.log(`Error fetching pokemon: ${err}`));
+      .catch(err => console.log(`Error fetching pokemon: ${err}`))
+      .finally(() =>
+        dispatch('loading/stopLoadingPokemon', {}, { root: true })
+      );
   }
 };
