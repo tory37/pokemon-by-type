@@ -5,7 +5,7 @@
 ```
 npm install -g @vue/cli
 ```
-
+- Then
 ```
 npm install
 ```
