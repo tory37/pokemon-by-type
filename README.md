@@ -4,13 +4,6 @@
 
 ```
 npm install
-npm install -g json-server
-```
-
-## Mock REST API
-
-```
-json-server db.json
 ```
 
 ### Compiles and hot-reloads for development
