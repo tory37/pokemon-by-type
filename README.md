@@ -1,6 +1,10 @@
 # pokemon-team-manager
 
 ## Project setup
+- If you dont have vue-cli installed
+```
+npm install -g @vue/cli
+```
 
 ```
 npm install
