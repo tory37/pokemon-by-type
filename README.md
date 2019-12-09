@@ -1,3 +1,9 @@
+# Topics Covered
+- Vue CLI
+- Vue
+- Vuex
+- Vue Router
+
 # pokemon-team-manager
 
 ## Project setup
